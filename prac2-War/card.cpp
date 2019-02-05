@@ -1,3 +1,12 @@
+/*
+COPYRIGHT (C) 2019 Sean Watson (sw182) All rights reserved.
+Practice 2 - War
+Author: Sean Watson
+    sw182@zips.uakron.edu
+    Version. 1.01 2/1/2019
+Purpose: Establish the game of war with the machines
+*/
+
 #include "card.hpp"
 
 
