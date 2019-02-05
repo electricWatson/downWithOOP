@@ -21,12 +21,20 @@ int main() {
     
     //create deck, int representation
     std::vector<int> deck;
+        //could have uses a link list or double ended queue
+        //could have generated each card atthis point and do no conversion
     for (size_t i = 0; i < 52; ++i) {
         deck.push_back(i);
     }
 
     //shuffle deck
     std::random_shuffle(deck.begin(), deck.end());
+    /*
+    // if you gonna be extra
+    std::ranom_device rng;
+    std::minstd_rand prng(rng());
+    std::shuffle(deck.begin(), deck.end(), 0);
+    */
 
     //create players
     Player players[2];

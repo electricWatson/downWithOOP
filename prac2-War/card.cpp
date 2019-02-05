@@ -41,16 +41,21 @@ std::ostream & operator<<(std::ostream& os, Card& c){
     return os << c.rank << " of " << c.suit;
 }
 
-
-Card::Card(){
-    rank = Ace;
-    suit = Spades;
+/*
+std::ostream & operator<<(std::ostream& os, Deck const& c){
+    return os << c.rank << " of " << c.suit;
 }
 
-Card::Card (Rank r, Suit s){
-    rank = r;
-    suit = s;
+Card::Card() : rank(Ace), suit(Spades){
+    //rank = Ace;
+    //suit = Spades;
 }
+
+Card::Card (Rank r, Suit s) : rank(r), suit(s){
+    //rank = r;
+    //suit = s;
+}
+*/
 
 void Card::printCard(){
     std::cout << this->rank << " of " << this->suit;

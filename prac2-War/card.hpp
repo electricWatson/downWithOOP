@@ -40,8 +40,14 @@ struct Card {
     Suit suit;
 
     //inits
-    Card();
-    Card(Rank, Suit); 
+    Card() : Card (Ace, Spades){};
+    Card(Rank r, Suit s) : rank(r), suit(s){}; 
+
+    //Class notes: Accessors return the value of a private data member.
+    //Aka getter, observers, queries."const" guarantees 
+    //that the member of function wont modify an members of a class
+    Rank get_rank() const {return rank;}
+    Suit get_suit() const {return suit;}
     
     //pre: none
     //post: none
