@@ -11,11 +11,15 @@ Purpose: Establish the game of war with the machines
 #define PLAYER_HPP
 
 #include <vector>
+#include "card.hpp"
+
 struct Card;
 //enum Rank;
 //enum Suit;
 
 struct Player {
+    //Player(std::string n) : name(n) {};
+    //std::string name;
     std::vector<Card> hand;
     int score = 0;
 

@@ -79,3 +79,32 @@ int Card::returnValue(){
     }
 }
 
+
+bool operator==(Card a, Card b){
+    return a.get_rank() == b.get_rank() 
+        && a.get_suit() == b.get_suit();
+}
+bool operator!=(Card a, Card b){
+    return !(a==b);
+}
+bool operator<(Card a, Card b){
+    //Product order, (does not give total order)
+    //return a.get_rank() < b.get_rank() 
+    //    && a.get_suit() < b.get_suit();
+
+    //Lexicographical order
+    if(a.get_suit() < b.get_suit())
+        return true;
+    else if (a.get_suit() > b.get_suit())
+        return false;
+    return a.get_rank() < b.get_rank();
+}
+bool operator>(Card a, Card b){
+    
+}
+bool operator<=(Card a, Card b){
+    
+}
+bool operator>=(Card a, Card b){
+    
+}

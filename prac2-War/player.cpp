@@ -8,7 +8,7 @@ Purpose: Establish the game of war with the machines
 */
 
 #include "player.hpp"
-#include "card.hpp"
+
 
 void Player::dealCard(int card){
     Suit ms = Suit(card / 13);
