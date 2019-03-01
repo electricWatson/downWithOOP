@@ -18,6 +18,15 @@ enum Suit {
     Hearts,
     Spades
 };
+enum Color { 
+    Black, 
+    Red 
+};
+
+enum CardKind {
+    Standard,
+    Joker
+};
 
 enum  Rank {
     Ace,
@@ -35,33 +44,111 @@ enum  Rank {
     King
 };
 
+class JokerCard {
+    public:
+        JokerCard(Color C)
+            : color(C)
+            {};
+        Color get_color() const {return color; }
+
+    private:
+        Color color;
+};
+
+class StandardCard {
+    public:
+        StandardCard(Rank r, Suit s)
+            : rank(r), suit(s)
+            {};
+
+        Rank get_rank() const {
+            return rank;
+            //return static_cast<Rank>(data & 0xf);
+        }
+
+        Suit get_suit() const {
+            return suit;
+            //return static_cast<Suit>(data >> 4);
+        }
+
+    private:
+        Rank rank;
+        Suit suit;
+};
+
+struct CardData {       
+    StandardCard sc;
+    JokerCard jc;
+/*
+    CardData(Rank r, Suit s)
+        : sc(r, s)
+        {}
+
+    CardData(Color c)
+        : jc(c)
+        {}
+*/
+};
+
 class Card {
 private:     
-
-public:
+    CardKind tag;  
+    CardData cardData;
     unsigned char data;
+public:
     Rank rank;
     Suit suit;
+    Color color;
 
     //inits
-    Card() : Card (Ace, Spades)
+    Card(Rank r, Suit s)
+        : tag(Standard)//, cardData.sc(r, s)
         {};
-    Card(Rank r, Suit s) : rank(r), suit(s), 
-        data (static_cast<unsigned>(s) << 4 | static_cast<unsigned>(r)) 
-        {}; 
 
-    //Class notes: Accessors return the value of a private data member.
-    //Aka getter, observers, queries."const" guarantees 
-    //that the member of function wont modify an members of a class
-    Rank get_rank() const {
-        //return rank;
-        return static_cast<Rank>(data & 0xf);
-        }
-    Suit get_suit() const {
+    Card(Color c)
+        : tag(Joker)//, cardData.jc(c)
+        {};
+    /*
+    Card() : Card (Ace, Spades), tag(Standard)
+        {};
+    Card(Rank r, Suit s) : rank(r), suit(s), tag(Standard),
+        data (static_cast<unsigned>(s) << 4 | static_cast<unsigned>(r)) 
+        {};
+    Card(Color c) : color(c), tag(Joker),
+        data (static_cast<unsigned>(s) << 6) 
+        {}; 
+    */
+
+    //binary representation data control method
+    unsigned char get_data() const {
         //return suit;
-        return static_cast<Suit>(data >> 4);
+        return data;
         }
+    //dual cards
+    bool is_standard() const {
+        return tag == Standard;
+    }
+    bool is_joker() const {
+        return tag == Joker;
+    }
+
+    Rank get_rank() const {
+        assert(is_standard(); // makes sure this is true before running this function
+        return cardData.sc.get_rank();
+        //return static_cast<Rank>(data & 0xf);
+    }
+    Suit get_suit() const {
+        assert(is_standard();
+        return cardData.sc.get_suit();
+        //return static_cast<Suit>(data >> 4);
+    }
+    Color get_color() const {
+        assert(is_joker();
+        return cardData.jc.get_color();
+        //return static_cast<Suit>(data >> 6);
+    }
     
+
     //pre: none
     //post: none
     //prints card to console out

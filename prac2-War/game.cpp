@@ -91,7 +91,7 @@ void Game::printDeck(){
         std::cout << c.rank << " of " << c.suit << std::endl
             << c.get_rank() << " of " << c.get_suit() << static_cast<Rank>(0)
             << " name: " << c 
-            << " data: " << static_cast<unsigned>(c.data) << std::endl;
+            << " data: " << static_cast<unsigned>(c.get_data()) << std::endl;
     }
 }
 
