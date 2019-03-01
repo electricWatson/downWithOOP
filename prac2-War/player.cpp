@@ -22,8 +22,7 @@ void Player::dealCard(Card card){
 }
 
 Card Player::playNextCard(){
-    Card topCard;
-    topCard = this->hand.back();
+    Card topCard(this->hand.back());
     this->hand.pop_back();
     return topCard;
 }

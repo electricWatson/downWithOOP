@@ -11,6 +11,7 @@ Purpose: Establish the game of war with the machines
 #define CARD_HPP
 
 #include <iostream>
+#include <cassert>
 
 enum Suit {
     Clubs,
@@ -18,6 +19,7 @@ enum Suit {
     Hearts,
     Spades
 };
+
 enum Color { 
     Black, 
     Red 
@@ -46,10 +48,13 @@ enum  Rank {
 
 class JokerCard {
     public:
-        JokerCard(Color C)
-            : color(C)
+        JokerCard(Color c)
+            : color(c)
             {};
-        Color get_color() const {return color; }
+        
+        Color get_color() const { 
+            return color; 
+        }
 
     private:
         Color color;
@@ -79,15 +84,14 @@ class StandardCard {
 struct CardData {       
     StandardCard sc;
     JokerCard jc;
-/*
+
     CardData(Rank r, Suit s)
-        : sc(r, s)
-        {}
+        : sc(r, s), jc(Red)
+        {};
 
     CardData(Color c)
-        : jc(c)
-        {}
-*/
+        : jc(c), sc(Ace, Spades)
+        {};
 };
 
 class Card {
@@ -95,6 +99,7 @@ private:
     CardKind tag;  
     CardData cardData;
     unsigned char data;
+
 public:
     Rank rank;
     Suit suit;
@@ -102,22 +107,32 @@ public:
 
     //inits
     Card(Rank r, Suit s)
-        : tag(Standard)//, cardData.sc(r, s)
+        : tag(Standard), cardData(r, s)
         {};
 
     Card(Color c)
-        : tag(Joker)//, cardData.jc(c)
+        : tag(Joker), cardData(c)
         {};
-    /*
-    Card() : Card (Ace, Spades), tag(Standard)
+    
+    Card(const Card& c) {
+        if(c.is_standard()){
+            Card(c.get_rank(), c.get_suit());
+        }
+        else {
+            Card(c.get_color());
+        }
+    };
+
+/*
+    Card() : Card (Ace, Spades)
         {};
     Card(Rank r, Suit s) : rank(r), suit(s), tag(Standard),
         data (static_cast<unsigned>(s) << 4 | static_cast<unsigned>(r)) 
         {};
     Card(Color c) : color(c), tag(Joker),
-        data (static_cast<unsigned>(s) << 6) 
+        data (static_cast<unsigned>(c) << 6) 
         {}; 
-    */
+*/
 
     //binary representation data control method
     unsigned char get_data() const {
@@ -133,19 +148,19 @@ public:
     }
 
     Rank get_rank() const {
-        assert(is_standard(); // makes sure this is true before running this function
-        return cardData.sc.get_rank();
-        //return static_cast<Rank>(data & 0xf);
+        assert(is_standard()); // makes sure this is true before running this function
+        //return cardData.sc.get_rank();
+        return static_cast<Rank>(data & 0xf);
     }
     Suit get_suit() const {
-        assert(is_standard();
-        return cardData.sc.get_suit();
-        //return static_cast<Suit>(data >> 4);
+        assert(is_standard());
+        //return cardData.sc.get_suit();
+        return static_cast<Suit>(data >> 4);
     }
     Color get_color() const {
-        assert(is_joker();
-        return cardData.jc.get_color();
-        //return static_cast<Suit>(data >> 6);
+        assert(is_joker());
+        //return cardData.jc.get_color();
+        return static_cast<Color>(data >> 6);
     }
     
 
@@ -156,6 +171,7 @@ public:
     //pre: none
     //post: returns int value of rank
     int returnValue();
+
 };
 
 std::ostream & operator<<(std::ostream& os, Suit& s);
@@ -168,6 +184,8 @@ bool operator<(Card a, Card b);
 bool operator>(Card a, Card b);
 bool operator<=(Card a, Card b);
 bool operator>=(Card a, Card b);
+
+
 
 
 
