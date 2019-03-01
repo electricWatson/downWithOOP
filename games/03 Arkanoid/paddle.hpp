@@ -1,26 +1,25 @@
 #ifndef PADDLE_HPP
 #define PADDLE_HPP
 
+#include <SFML/Graphics.hpp>
+using namespace sf;
+
 class Paddle {
     private:
         Texture texture;
-        Sprite sprite;
+        Sprite _sprite;
 
     public:
-        Paddle(std::string s) : texture.loadFromFile(s); instantiate();
-            {}
-        Paddle(Texture t) : texture(t); instantiate();
-            {}
-        
+        Paddle(std::string s){
+            texture.loadFromFile(s);
+            _sprite.setTexture(texture);
+        };
 
-        void instantiate() {
-            sprite(texture);
-        }
         void setPos(float x, float y){
-            sprite.setPosition(x,y);
+            _sprite.setPosition(x,y);
         }
         Sprite sprite(){
-            return sprite;
+            return _sprite;
         }
 
         void inputToMove();
@@ -28,7 +27,5 @@ class Paddle {
         
         
 };
-
-
 
 #endif

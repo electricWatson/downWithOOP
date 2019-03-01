@@ -1,10 +1,15 @@
 #ifndef BALL_HPP
 #define BALL_HPP
 
+#include "block.hpp"
+#include "paddle.hpp"
+#include <SFML/Graphics.hpp>
+using namespace sf;
+
 class Ball {
     private:
         Texture texture;
-        Sprite sprite;
+        Sprite _sprite;
 
         //ball start position
         float x = 300, y = 300;
@@ -13,24 +18,21 @@ class Ball {
         
 
     public:
-        Ball(std::string s) : texture.loadFromFile(s); instantiate();
-            {}
-        Ball(Texture t) : texture(t); instantiate();
-            {}
-
-        void instantiate() {
-            sprite(texture);
-        }
+        Ball(std::string s)  
+            {
+                texture.loadFromFile(s);
+                _sprite.setTexture(texture);
+            };
 
         Sprite sprite(){
-            return sprite;
+            return _sprite;
         }
 
         //think we can overide the setPosition
         void setPos(float xSet,float ySet){
             x = xSet;
             y = ySet;
-            sprite.setPosition(x,y);
+            _sprite.setPosition(x,y);
         }
         float getXPos(){
             return x;

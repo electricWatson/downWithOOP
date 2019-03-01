@@ -10,7 +10,7 @@ using namespace sf;
 
 int main()
 {
-    srand(time(0));
+    //srand(time(0));
 
     RenderWindow app(VideoMode(520, 450), "Arkanoid!");
     app.setFramerateLimit(60);
@@ -22,8 +22,11 @@ int main()
     block.blockLayout();
 
     Ball ball("images/ball.png");
-
-    Sprite sBackground(t2);
+    
+    //background
+    Texture bg;
+    bg.loadFromFile("images/background.jpg");
+    Sprite sBackground(bg);
 
 /*
 //load textures
@@ -119,8 +122,10 @@ int main()
       for (int i=0;i<n;i++)
       app.draw(block[i]);
 */
-       for ( auto it = block.begin(); it != block.end(); ++it )
-            app.draw(it)
+       for ( auto it = block.begin(); it != block.end(); ++it ){
+            app.draw(*it);
+       }
+           
 
 
       app.display();
