@@ -14,7 +14,7 @@ class Game {
     //create players
     Player players[2];
     //create deck, int representation
-    std::vector<Card> deck;
+    std::vector<Card*> deck;
     
     void buildDeck();
     void printDeck();

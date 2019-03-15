@@ -13,16 +13,18 @@ Purpose: Establish the game of war with the machines
 void Player::dealCard(int card){
     Suit ms = Suit(card / 13);
     Rank mr = Rank(card % 13);
-    Card newCard(mr, ms);
-    this->dealCard(newCard);
+    StandardCard newCard(mr, ms);
+    //hand.push_back(newCard);
+    //this->dealCard(newCard);
+    hand.push_back(new StandardCard(mr, ms));
 }
 
-void Player::dealCard(Card card){
-    hand.push_back(card);
+void Player::dealCard(StandardCard card){
+    hand.push_back(new StandardCard(card.rank, card.suit));
 }
 
-Card Player::playNextCard(){
-    Card topCard(this->hand.back());
+Card* Player::playNextCard(){
+    Card* topCard(this->hand.back());
     this->hand.pop_back();
     return topCard;
 }

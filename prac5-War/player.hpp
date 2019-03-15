@@ -20,7 +20,7 @@ struct Card;
 struct Player {
     //Player(std::string n) : name(n) {};
     //std::string name;
-    std::vector<Card> hand;
+    std::vector<Card*> hand;
     int score = 0;
 
     //pre: takes a Card by intiger and adds it to the players hand
@@ -30,11 +30,11 @@ struct Player {
     //pre: takes a Card and adds it to the players hand
     //post: none
     //adds a Card by type to the players hand
-    void dealCard(Card);
+    void dealCard(StandardCard);
     //pre: none
     //post: returns a Card matching that of the one removed from hand
     //returns a copy of the next Card and removes it from the hand
-    Card playNextCard();
+    Card* playNextCard();
     //pre : none
     //post: none
     //adds 1 point to score

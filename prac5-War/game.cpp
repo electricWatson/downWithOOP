@@ -39,21 +39,21 @@ void Game::newGame() {
 
 void Game::playRound(Player& p1, Player& p2){
     //play first cards
-    Card play1 = p1.playNextCard();
+    Card* play1 = p1.playNextCard();
     std::cout << "Player 1 plays: " << play1 << std::endl;
-    Card play2 = p2.playNextCard();
+    Card* play2 = p2.playNextCard();
     std::cout << "Player 2 plays: " << play2 << std::endl;
     //determine value
     //didn't know i could just access the enum value till I tried on the suits
-    int pv1 = play1.returnValue(); 
-    int pv2 = play2.returnValue();
+    int pv1 = play1->returnValue(); 
+    int pv2 = play2->returnValue();
     //determine winner    
     if(pv1 > pv2){
         std::cout << "Player 1 Wins" << std::endl;
         p1.addPoint();
     }
     else if(pv1 == pv2){
-        if(play1.suit > play2.suit){
+        if(play1 > play2){
             std::cout << "Player 1 Wins" << std::endl;
             p1.addPoint();
         }
@@ -77,7 +77,7 @@ void Game::buildDeck(){
     //could have uses a link list or double ended queue
     //could have generated each card atthis point and do no conversion
     for (int i = 0; i < 52; ++i) {
-        deck.push_back(Card( Rank(i%13), Suit(i/13)));    
+        deck.push_back(new StandardCard( Rank(i%13), Suit(i/13)));    
     }
     //add jokers
     //deck.push_back(Card(Black));
@@ -88,10 +88,9 @@ void Game::printDeck(){
     for(auto &c : deck){
         //Suit ms = Suit(c / 13);
         //Rank mr = Rank(c % 13);
-        std::cout << c.rank << " of " << c.suit << std::endl
-            << c.get_rank() << " of " << c.get_suit() << static_cast<Rank>(0)
+        std::cout << c << std::endl
             << " name: " << c 
-            << " data: " << static_cast<unsigned>(c.get_data()) << std::endl;
+            << " data: " << static_cast<unsigned>(c->get_data()) << std::endl;
     }
 }
 
@@ -106,7 +105,7 @@ void Game::dealCards(){
     //if(!players.empty()){
         int p = 0;
         for(auto intIt = deck.begin(); intIt != deck.end();){
-            players[p].dealCard(*intIt);
+            players[p].dealCard(intIt);
             intIt = deck.erase(intIt);
             p = 1 - p;
         }    

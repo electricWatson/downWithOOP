@@ -31,7 +31,6 @@ enum CardKind {
 };
 
 enum  Rank {
-    Ace,
     Two,
     Three,
     Four,
@@ -43,26 +42,23 @@ enum  Rank {
     Ten,
     Jack,
     Queen,
-    King
+    King,
+    Ace
 };
 
 
-class Card {
-private:     
-    CardKind tag;  
-    CardData cardData;
-    unsigned char data;
-
-public:
+struct Card {   
     enum Kind {
         Standard,
         Joker,
-    };
-
+    }; 
+    //CardKind tag;  
+    //CardData cardData;
+    unsigned char data;
     Kind kind;
 
     Card (Kind k) 
-        : kind(k),
+        : kind(k)
     {}
 
 
@@ -74,39 +70,41 @@ public:
     //pre: none
     //post: none
     //prints card to console out
-    virtual void  printCard(std::ostream& os) const;
+    virtual void  printCard(std::ostream& os) const = 0;
     //pre: none
     //post: returns int value of rank
     virtual int returnValue();
 
 };
 
-class JokerCard : Card {
-    public:
+struct JokerCard : Card {
+        Color color;
+        
         JokerCard(Color c)
-            : color(c), tag(Joker), cardData(c)d
-            {};
+            : Card(Joker), color(c)//, kind(Joker) //Card(Joker) //, , cardData(c)
+            {  }
         
         Color get_color() const { 
             return color; 
         }
 
         virtual void  printCard(std::ostream& os) const override{
-            std::cout << this.color << " Joker";
+            std::cout << this->color << " Joker";
         }
 
         virtual int returnValue() override {
             return 13;
         }
 
-    private:
-        Color color;
+
 };
 
-class StandardCard : Card {
-    public:
+struct StandardCard : Card {
+        Rank rank;
+        Suit suit;
+
         StandardCard(Rank r, Suit s)
-            : rank(r), suit(s), tag(Standard), cardData(r, s)
+            : Card(Standard), rank(r), suit(s)//, kind(Standard)//, cardData(r, s)
             {};
 
         Rank get_rank() const {
@@ -120,27 +118,10 @@ class StandardCard : Card {
         }
         
         virtual void  printCard(std::ostream& os) const override{
-            std::cout << this.rank << " of " << this.suit;
+            std::cout << this->rank << " of " << this->suit;
         }
         
         virtual int returnValue() override;
-
-    private:
-        Rank rank;
-        Suit suit;
-};
-
-struct CardData {       
-    StandardCard sc;
-    JokerCard jc;
-
-    CardData(Rank r, Suit s)
-        : sc(r, s), jc(Red)
-        {};
-
-    CardData(Color c)
-        : jc(c), sc(Ace, Spades)
-        {};
 };
 
 
@@ -149,12 +130,12 @@ std::ostream & operator<<(std::ostream& os, Suit& s);
 std::ostream & operator<<(std::ostream& os, Rank& r);
 std::ostream & operator<<(std::ostream& os, Card& c);
 
-bool operator==(Card a, Card b);
-bool operator!=(Card a, Card b);
-bool operator<(Card a, Card b);
-bool operator>(Card a, Card b);
-bool operator<=(Card a, Card b);
-bool operator>=(Card a, Card b);
+bool operator==(StandardCard a, StandardCard b);
+bool operator!=(StandardCard a, StandardCard b);
+bool operator<(StandardCard a, StandardCard b);
+bool operator>(StandardCard a, StandardCard b);
+bool operator<=(StandardCard a, StandardCard b);
+bool operator>=(StandardCard a, StandardCard b);
 
 
 

@@ -38,12 +38,18 @@ std::ostream & operator<<(std::ostream& os, Rank& r){
 }
 
 std::ostream & operator<<(std::ostream& os, Card& c){
+    return os << "Card of kind: " << c.kind;
+}
+std::ostream & operator<<(std::ostream& os, StandardCard& c){
     return os << c.rank << " of " << c.suit;
+}
+std::ostream & operator<<(std::ostream& os, JokerCard& c){
+    return os << c.color << " Joker";
 }
 
 
 
-virtual int StandardCard::returnValue(){
+int StandardCard::returnValue(){
     switch(this->rank) {
         case Ace : return 14;          break;
         case Two : return 2;          break;
@@ -61,32 +67,41 @@ virtual int StandardCard::returnValue(){
     }
 }
 
-
-bool operator==(Card a, Card b){
+//StandardCard
+bool operator==(StandardCard a, StandardCard b){
     return a.get_rank() == b.get_rank() 
         && a.get_suit() == b.get_suit();
 }
-bool operator!=(Card a, Card b){
+bool operator!=(StandardCard a, StandardCard b){
     return !(a==b);
 }
-bool operator<(Card a, Card b){
-    //Product order, (does not give total order)
-    //return a.get_rank() < b.get_rank() 
-    //    && a.get_suit() < b.get_suit();
-
-    //Lexicographical order
-    if(a.get_suit() < b.get_suit())
+bool operator<(StandardCard a, StandardCard b){
+    //Lexicographical order of Enum instead of returnValue()
+    if(a.get_rank() < b.get_rank())
         return true;
-    else if (a.get_suit() > b.get_suit())
+    else if (a.get_rank() > b.get_rank())
         return false;
-    return a.get_rank() < b.get_rank();
+    return a.get_suit() < b.get_suit(); 
 }
-bool operator>(Card a, Card b){
-    
+bool operator>(StandardCard a, StandardCard b){
+    return !(a<b);
 }
-bool operator<=(Card a, Card b){
-    
+bool operator<=(StandardCard a, StandardCard b){
+    if(a==b || a<b)
+        return true;
+    else
+        return false;
 }
-bool operator>=(Card a, Card b){
-    
+bool operator>=(StandardCard a, StandardCard b){
+    if(a==b || a>b)
+        return true;
+    else
+        return false;
+}
+//JokerCard
+bool operator==(JokerCard a, JokerCard b){
+    return a.kind == b.kind;
+}
+bool operator!=(JokerCard a, JokerCard b){
+    return !(a==b);
 }
