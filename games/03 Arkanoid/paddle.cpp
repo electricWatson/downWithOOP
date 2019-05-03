@@ -10,6 +10,8 @@ void Paddle::inputToMove(){
 
 bool Paddle::collisionCheck(float x, float y){
     bool collision = false;
-        if ( FloatRect(x,y,12,12).intersects(_sprite.getGlobalBounds()) )
+        if ( FloatRect(x,y,12,12).intersects(_sprite.getGlobalBounds()) ){
+            collision = true;
+        }
     return collision;
 }

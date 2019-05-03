@@ -11,13 +11,14 @@ class Ball {
         Texture texture;
         Sprite _sprite;
 
+        
+        
+
+    public:
         //ball start position
         float x = 300, y = 300;
         //ball movement itteration disance
         float dx = 6, dy = 5;
-        
-
-    public:
         Ball(std::string s)  
             {
                 texture.loadFromFile(s);
@@ -37,7 +38,7 @@ class Ball {
         float getXPos(){
             return x;
         }
-        float geyYPos(){
+        float getYPos(){
             return y;
         }
 
